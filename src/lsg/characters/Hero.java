@@ -4,6 +4,7 @@ import lsg.armor.ArmorItem;
 import lsg.armor.BlackWitchVeil;
 import lsg.armor.DragonSlayerLeggings;
 import lsg.armor.RingedKnightArmor;
+import lsg.buffs.rings.Ring;
 
 import static java.lang.String.format;
 
@@ -13,10 +14,14 @@ import static java.lang.String.format;
 public class Hero extends Character {
 
     private ArmorItem[] armor;
-    static int MAX_ARMOR_PIECES = 3;
+    private Ring[] rings;
+
+    private static int MAX_ARMOR_PIECES = 3;
+    private static int MAX_RINGS = 2;
 
 
     // Getteurs & Setteurs
+
 
     /**
      * Equipe une armure à un slot du héro
@@ -70,7 +75,61 @@ public class Hero extends Character {
     }
 
 
+    /**
+     * Equipe un anneau à un slot du héro
+     * @param ring L'anneau à équiper
+     * @param i le slot où doit être équipé l'anneau (supérieur à 0)
+     */
+    public void setRing(Ring ring, int i){
+        if (!(i<=0 || i>MAX_RINGS)){
+            this.rings[i-1] = ring;
+        }
+    }
+
+    /**
+     * Retourne un tableau contenant les anneaux du héro
+     * @return (Ring[])
+     */
+    public Ring[] getRings(){
+        Ring[] temp;
+        int j = 0;
+
+        for(int i=0; i<MAX_RINGS; i++) {
+            if (this.rings[i]!=null) {
+                j++;
+            }
+        }
+        temp = new Ring[j];
+        j = 0;
+        for(int i=0; i<MAX_RINGS; i++) {
+            if (this.rings[i]!=null) {
+                temp[j] = this.rings[i];
+                j++;
+            }
+        }
+
+        return temp;
+    }
+
+    /**
+     * Retourne la valeur de buff totale conférés par les anneaux du héro
+     * @return (float)
+     */
+    public float getTotalBuff(){
+        float somme=0;
+
+        for(int i=0; i<MAX_RINGS; i++) {
+            if (this.rings[i]!=null)
+                somme += this.rings[i].computeBuffValue();
+        }
+
+        return somme;
+    }
+
+
+
     // Constructeurs
+
 
 
     /**
@@ -83,6 +142,7 @@ public class Hero extends Character {
         this.setMaxStamina(50);
         this.setStamina(this.getMaxStamina());
         this.armor = new ArmorItem[MAX_ARMOR_PIECES];
+        this.rings = new Ring[MAX_RINGS];
     }
 
     /**
@@ -96,6 +156,7 @@ public class Hero extends Character {
         this.setMaxStamina(50);
         this.setStamina(this.getMaxStamina());
         this.armor = new ArmorItem[MAX_ARMOR_PIECES];
+        this.rings = new Ring[MAX_RINGS];
     }
 
 
@@ -128,8 +189,10 @@ public class Hero extends Character {
         return this.getTotalArmor();
     }
 
-
-
+    @Override
+    protected float computeBuff() {
+        return this.getTotalBuff();
+    }
 
     public static void main(String[] args) {
 

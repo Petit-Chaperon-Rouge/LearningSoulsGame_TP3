@@ -8,7 +8,7 @@ import java.util.Locale;
 /**
  * Created by alecoeuc on 22/09/17.
  */
-abstract class Character {
+public abstract class Character {
 
     private String name;
     private int life;
@@ -173,7 +173,7 @@ abstract class Character {
      */
     public String toString() {
         String alive = (this.isAlive()) ? "ALIVE" : "DEAD" ;
-       return (String.format(Locale.US,"%-20s %-20s LIFE:%-10s STAMINA:%-10s PROTECTION:%-5s", "[ " + getClass().getSimpleName() + " ]", getName(), String.format("%5d", this.getLife()), String.format("%5d", this.getStamina()), this.computeProtection()) + "(" + alive + ")");
+       return (String.format(Locale.US,"%-20s %-20s LIFE:%-10s STAMINA:%-10s PROTECTION:%-10s BUFF:%-10s", "[ " + getClass().getSimpleName() + " ]", getName(), String.format("%5d", this.getLife()), String.format("%5d", this.getStamina()), String.format(Locale.US,"%6.2f", this.computeProtection()), String.format(Locale.US, "%6.2f", this.computeBuff())) + "(" + alive + ")");
     }
 
     /**
@@ -232,7 +232,7 @@ abstract class Character {
         if (this.computeProtection()>=100)
             value = 0;
         else {
-            value = value; //<--- Pas fini
+            value = value - Math.round(value*this.computeProtection()/100);
         }
 
         int damage = this.getLife()<value ? this.getLife() : value;
@@ -245,5 +245,6 @@ abstract class Character {
 
 
     protected abstract float computeProtection();
+    protected abstract float computeBuff();
 
 }

@@ -1,24 +1,54 @@
 package lsg.characters;
 
+import lsg.buffs.talismans.Talisman;
+
 /**
  * Created by alecoeuc on 22/09/17.
  */
 public class Monster extends Character {
 
 
-    static int INSTANCES_COUNT = 0;
+    private static int INSTANCES_COUNT = 0;
+
     private float skinThickness = 20;
+    private Talisman talisman;
 
 
     // Getteurs & Setteurs
 
+    /**
+     * Retourne la valeur de protection du monstre
+     * @return (float)
+     */
     public float getSkinThickness() {
         return this.skinThickness;
     }
 
+    /**
+     * Modifie la valeur de protection du monstre
+     * @param skinThickness (float) la nouvelle valeur de protection
+     */
     protected void setSkinThickness(float skinThickness) {
         this.skinThickness = skinThickness;
     }
+
+    /**
+     * Equipe un talisman à un slot du monstre
+     * @param talisman Le talisman à équiper
+     */
+    public void setTalisman(Talisman talisman){
+        this.talisman = talisman;
+    }
+
+    /**
+     * Retourne le talisman du monstre
+     * @return (Talisman)
+     */
+    public Talisman getTalisman(){
+        return this.talisman;
+    }
+
+
 
     // Constructeurs
 
@@ -55,5 +85,13 @@ public class Monster extends Character {
     @Override
     protected float computeProtection() {
         return this.getSkinThickness();
+    }
+
+    @Override
+    protected float computeBuff() {
+        if (talisman!=null)
+            return this.talisman.computeBuffValue();
+        else
+            return 0;
     }
 }
