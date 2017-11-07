@@ -83,6 +83,7 @@ public class Hero extends Character {
     public void setRing(Ring ring, int i){
         if (!(i<=0 || i>MAX_RINGS)){
             this.rings[i-1] = ring;
+            ring.setHero(this);
         }
     }
 

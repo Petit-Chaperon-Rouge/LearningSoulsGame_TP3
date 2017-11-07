@@ -3,6 +3,7 @@ package lsg;
 import lsg.armor.ArmorItem;
 import lsg.armor.BlackWitchVeil;
 import lsg.armor.DragonSlayerLeggings;
+import lsg.buffs.rings.DragonSlayerRing;
 import lsg.buffs.rings.RingOfDeath;
 import lsg.characters.Hero;
 import lsg.characters.Lycanthrope;
@@ -40,14 +41,14 @@ public class LearningSoulsGame {
             int attack;
 
         while (hero.isAlive() && monster.isAlive()) {
-            System.out.println("\nHit enter key for next move >\n");
+            System.out.println("\nHit enter key for next move > ");
             String str = scanner.nextLine();
 
             if (heroTurn) {
                 attack = hero.attack();
                 damage = monster.getHitWith(attack);
 
-                System.out.println(hero.getName() + " attacks " + monster.getName() + " with " + hero.getWeapon().getName() + " (ATTACKS:" + attack + "| DMG : " + damage + ")");
+                System.out.println(hero.getName() + " attacks " + monster.getName() + " with " + hero.getWeapon().getName() + " (ATTACK:" + attack + " | DMG : " + damage + ")");
 
                 heroTurn = false;
             }
@@ -55,7 +56,7 @@ public class LearningSoulsGame {
                 attack = monster.attack();
                 damage = hero.getHitWith(attack);
 
-                System.out.println(monster.getName() + " attacks " + hero.getName() + " with " + monster.getWeapon().getName() + " (ATTACKS:" + attack + "| DMG : " + damage + ")");
+                System.out.println(monster.getName() + " attacks " + hero.getName() + " with " + monster.getWeapon().getName() + " (ATTACK:" + attack + " | DMG : " + damage + ")");
 
                 heroTurn = true;
             }
@@ -64,10 +65,10 @@ public class LearningSoulsGame {
         }
 
         if (hero.isAlive()) {
-            System.out.println("--- " + hero.getName() + " WINS !!! ---");
+            System.out.println("\n--- " + hero.getName() + " WINS !!! ---");
         }
         else {
-            System.out.println("--- " + hero.getName() + " LOSE... ---");
+            System.out.println("\n--- " + hero.getName() + " LOSE... ---");
         }
 
     }
@@ -98,10 +99,10 @@ public class LearningSoulsGame {
 
     private void play_v3() {
         init();
-        hero.setArmorItem(new BlackWitchVeil(), 1);
-        hero.setArmorItem(new DragonSlayerLeggings(), 2);
+        hero.setArmorItem(new DragonSlayerLeggings(), 1);
         monster = new Lycanthrope();
         hero.setRing(new RingOfDeath(), 1);
+        hero.setRing(new DragonSlayerRing(), 2);
         fight1v1();
     }
 
